@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于 TopRepo - GitHub 热门项目追踪</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding-top: 60px;
+            padding-bottom: 40px;
+            background-color: #f8f9fa;
+        }
+        .about-section {
+            padding: 60px 0;
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 30px 0;
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-github me-2"></i>TopRepo
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about">关于</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/yourusername/TopRepo" target="_blank">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 关于内容 -->
+    <div class="container about-section">
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 mb-4">关于 TopRepo</h1>
+                <p class="lead">
+                    TopRepo 是一个自动跟踪 GitHub 上最热门和增长最快的仓库的工具，
+                    帮助开发者发现有价值的项目，了解开源社区的最新动态。
+                </p>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <h2 class="mb-4">项目背景</h2>
+                        <p>
+                            在快速发展的开源世界中，每天都有大量新项目出现，也有许多现有项目获得突破性进展。
+                            跟踪这些变化对于开发者来说既重要又具有挑战性。
+                        </p>
+                        <p>
+                            TopRepo 项目旨在解决这个问题，通过自动化抓取 GitHub 数据，
+                            识别最热门和增长最快的仓库，并以易于访问的方式呈现这些信息。
+                        </p>
+                        <p>
+                            无论您是寻找新技术、学习资源，还是想了解开源社区的最新趋势，
+                            TopRepo 都能帮助您节省时间，发现真正有价值的项目。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-12">
+                <h2 class="text-center mb-4">主要功能</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="feature-icon">
+                                    <i class="bi bi-fire"></i>
+                                </div>
+                                <h4>每日热门项目</h4>
+                                <p>自动抓取 GitHub 上最新的热门仓库，展示最受关注的项目。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="feature-icon">
+                                    <i class="bi bi-graph-up-arrow"></i>
+                                </div>
+                                <h4>增长最快项目</h4>
+                                <p>识别并展示增长率最高的项目，发现正在崛起的新星。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="feature-icon">
+                                    <i class="bi bi-envelope-check"></i>
+                                </div>
+                                <h4>邮件订阅服务</h4>
+                                <p>订阅每日更新，直接在邮箱中接收最新的热门项目信息。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body text-center p-4">
+                                <div class="feature-icon">
+                                    <i class="bi bi-github"></i>
+                                </div>
+                                <h4>README 自动更新</h4>
+                                <p>自动更新 GitHub README，展示最新的热门项目列表。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-5">
+                        <h2 class="mb-4">技术实现</h2>
+                        <p>
+                            TopRepo 使用 Python 构建，主要技术栈包括：
+                        </p>
+                        <ul>
+                            <li>GitHub API 和 PyGithub 库用于数据抓取</li>
+                            <li>Flask 框架构建 Web 应用</li>
+                            <li>SQLAlchemy 进行数据库操作</li>
+                            <li>APScheduler 实现定时任务</li>
+                            <li>SMTP 服务发送邮件通知</li>
+                        </ul>
+                        <p>
+                            项目代码开源在 GitHub 上，欢迎贡献和提出建议：
+                            <a href="https://github.com/yourusername/TopRepo" target="_blank">
+                                https://github.com/yourusername/TopRepo
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="mb-4">联系我们</h2>
+                <p>
+                    如果您有任何问题、建议或反馈，请随时联系我们：
+                </p>
+                <p>
+                    <a href="mailto:your@email.com" class="btn btn-primary me-2">
+                        <i class="bi bi-envelope me-2"></i>发送邮件
+                    </a>
+                    <a href="https://github.com/yourusername/TopRepo/issues" target="_blank" class="btn btn-outline-dark">
+                        <i class="bi bi-github me-2"></i>GitHub Issues
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5>TopRepo</h5>
+                    <p>每天自动跟踪 GitHub 上最热门和增长最快的仓库，帮助开发者发现有价值的项目。</p>
+                </div>
+                <div class="col-lg-3">
+                    <h5>链接</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-white">首页</a></li>
+                        <li><a href="/about" class="text-white">关于</a></li>
+                        <li><a href="https://github.com/yourusername/TopRepo" class="text-white">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>联系我们</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="mailto:your@email.com" class="text-white">your@email.com</a></li>
+                        <li><a href="https://github.com/yourusername" class="text-white">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 TopRepo. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

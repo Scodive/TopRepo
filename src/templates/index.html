@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TopRepo - GitHub 热门项目追踪</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            padding-top: 60px;
+            padding-bottom: 40px;
+            background-color: #f8f9fa;
+        }
+        .repo-card {
+            border-radius: 8px;
+            transition: transform 0.2s;
+            height: 100%;
+        }
+        .repo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .language-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 30px;
+        }
+        .subscription-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 30px 0;
+            background-color: #343a40;
+            color: #f8f9fa;
+        }
+        .nav-tabs .nav-link {
+            border: none;
+            color: #495057;
+            font-weight: 500;
+        }
+        .nav-tabs .nav-link.active {
+            color: #0d6efd;
+            border-bottom: 2px solid #0d6efd;
+            background-color: transparent;
+        }
+        .update-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .flash-messages {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-github me-2"></i>TopRepo
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">关于</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/yourusername/TopRepo" target="_blank">
+                            <i class="bi bi-github"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash 消息 -->
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- 英雄区域 -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="display-4 fw-bold mb-3">发现 GitHub 上最热门的项目</h1>
+                    <p class="lead mb-4">每天自动更新，帮助您跟踪开源社区的最新动态，发现有价值的项目。</p>
+                    <a href="#trending" class="btn btn-light btn-lg me-2">
+                        <i class="bi bi-fire me-2"></i>查看热门项目
+                    </a>
+                    <a href="#subscribe" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-envelope me-2"></i>订阅每日更新
+                    </a>
+                </div>
+                <div class="col-lg-5">
+                    <div class="subscription-form">
+                        <h3 class="text-center mb-4 text-dark">订阅每日更新</h3>
+                        <form action="/subscribe" method="post" id="subscribe">
+                            <div class="mb-3">
+                                <label for="name" class="form-label text-dark">姓名 (可选)</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="您的姓名">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label text-dark">邮箱地址 *</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="your@email.com" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-envelope-check me-2"></i>订阅
+                            </button>
+                            <div class="form-text text-center mt-2">
+                                我们不会发送垃圾邮件，您可以随时退订。
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要内容 -->
+    <div class="container" id="trending">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">GitHub 热门项目</h2>
+            <div class="update-time">
+                <i class="bi bi-clock me-1"></i>更新时间: {{ update_time }}
+                <a href="/refresh" class="btn btn-sm btn-outline-primary ms-2">
+                    <i class="bi bi-arrow-clockwise me-1"></i>刷新
+                </a>
+            </div>
+        </div>
+
+        <!-- 选项卡 -->
+        <ul class="nav nav-tabs mb-4" id="repoTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="trending-tab" data-bs-toggle="tab" data-bs-target="#trending-repos" type="button" role="tab">
+                    <i class="bi bi-fire me-1"></i>最新热门
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="growing-tab" data-bs-toggle="tab" data-bs-target="#growing-repos" type="button" role="tab">
+                    <i class="bi bi-graph-up-arrow me-1"></i>增长最快
+                </button>
+            </li>
+        </ul>
+
+        <!-- 选项卡内容 -->
+        <div class="tab-content" id="repoTabsContent">
+            <!-- 最新热门仓库 -->
+            <div class="tab-pane fade show active" id="trending-repos" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for repo in trending_repos %}
+                    <div class="col">
+                        <div class="card repo-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="{{ repo.owner_avatar }}" alt="{{ repo.owner }}" class="rounded-circle me-2" width="32" height="32">
+                                    <h5 class="card-title mb-0">
+                                        <a href="{{ repo.url }}" target="_blank" class="text-decoration-none">{{ repo.full_name }}</a>
+                                    </h5>
+                                </div>
+                                <p class="card-text">{{ repo.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        {% if repo.language %}
+                                        <span class="language-dot" style="background-color: {{ language_colors.get(repo.language, '#ccc') }}"></span>
+                                        <span>{{ repo.language }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <span class="me-3"><i class="bi bi-star-fill text-warning me-1"></i>{{ repo.stars }}</span>
+                                        <span><i class="bi bi-diagram-2 me-1"></i>{{ repo.forks }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- 增长最快的仓库 -->
+            <div class="tab-pane fade" id="growing-repos" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for repo in growing_repos %}
+                    <div class="col">
+                        <div class="card repo-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="{{ repo.owner_avatar }}" alt="{{ repo.owner }}" class="rounded-circle me-2" width="32" height="32">
+                                    <h5 class="card-title mb-0">
+                                        <a href="{{ repo.url }}" target="_blank" class="text-decoration-none">{{ repo.full_name }}</a>
+                                    </h5>
+                                </div>
+                                <p class="card-text">{{ repo.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        {% if repo.language %}
+                                        <span class="language-dot" style="background-color: {{ language_colors.get(repo.language, '#ccc') }}"></span>
+                                        <span>{{ repo.language }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <span class="me-3"><i class="bi bi-star-fill text-warning me-1"></i>{{ repo.stars }}</span>
+                                        <span class="badge bg-success">+{{ "%.2f"|format(repo.growth_rate * 100) }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5>TopRepo</h5>
+                    <p>每天自动跟踪 GitHub 上最热门和增长最快的仓库，帮助开发者发现有价值的项目。</p>
+                </div>
+                <div class="col-lg-3">
+                    <h5>链接</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/" class="text-white">首页</a></li>
+                        <li><a href="/about" class="text-white">关于</a></li>
+                        <li><a href="https://github.com/yourusername/TopRepo" class="text-white">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>联系我们</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="mailto:your@email.com" class="text-white">your@email.com</a></li>
+                        <li><a href="https://github.com/yourusername" class="text-white">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; {{ now.year }} TopRepo. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 语言颜色映射
+        const languageColors = {
+            "JavaScript": "#f1e05a",
+            "Python": "#3572A5",
+            "Java": "#b07219",
+            "TypeScript": "#2b7489",
+            "C++": "#f34b7d",
+            "C#": "#178600",
+            "PHP": "#4F5D95",
+            "Go": "#00ADD8",
+            "Ruby": "#701516",
+            "Swift": "#ffac45",
+            "Rust": "#dea584",
+            "Kotlin": "#F18E33",
+            "Dart": "#00B4AB",
+            "HTML": "#e34c26",
+            "CSS": "#563d7c"
+        };
+
+        // 设置语言颜色点
+        document.querySelectorAll('.language-dot').forEach(dot => {
+            const language = dot.nextElementSibling.textContent;
+            dot.style.backgroundColor = languageColors[language] || '#ccc';
+        });
+
+        // 自动关闭Flash消息
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+</body>
+</html> 
